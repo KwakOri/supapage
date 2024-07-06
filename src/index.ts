@@ -42,7 +42,9 @@ export class SupabasePageHandler<Database> {
     return data;
   }
 
-  async getPage(page: number): Promise<{ data: any; nextPage: number | null }> {
+  async getPage(
+    page: number
+  ): Promise<{ data: any; nextPage: number | null; error: string | null }> {
     const to = (page - 1) * this.limit;
     const from = page * this.limit;
     const { data } = await this.client
@@ -50,17 +52,18 @@ export class SupabasePageHandler<Database> {
       .select(this.columns)
       .range(to, from);
 
-    if (!data || data?.length < 1) return { data: null, nextPage: null };
+    if (!data || data?.length < 1)
+      return { error: `${page} Page is not exist`, data: null, nextPage: null };
 
     if (data.length > this.limit) {
       // 다음 페이지가 있다는 뜻.
       const response = data.slice(0, this.limit);
       const nextPage = page + 1;
-      return { data: response, nextPage };
+      return { error: null, data: response, nextPage };
     } else {
       // 다음 페이지가 없다는 뜻.
       const nextPage = null;
-      return { data, nextPage };
+      return { error: null, data, nextPage };
     }
   }
 }
