@@ -1,0 +1,30 @@
+{
+  "name": "@kwakori/supabase-pagenation",
+  "version": "1.0.4",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepack": "yarn build",
+    "build": "yarn clean && yarn build:tsc && yarn build:js",
+    "build:tsc": "yarn tsc --emitDeclarationOnly",
+    "build:js": "node build.js",
+    "clean": "rm -rf dist"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.3"
+  }
+}
